@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: baseDB
+    ports: 
+     - 3307:3307
+    environment:
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: baseDB
+volumes:
+  data_db:
+    name: base_db
+    external: true
