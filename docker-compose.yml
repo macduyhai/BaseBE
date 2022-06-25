@@ -3,14 +3,14 @@ version: "3.4"
 services:
   mysql:
     image: mysql:5.7
-    container_name: baseDB
+    container_name: basedb
     ports: 
-     - 3307:3307
+     - 3307:3306
     environment:
       MYSQL_PASSWORD: 123
       MYSQL_ROOT_PASSWORD: 123
-      MYSQL_DATABASE: baseDB
+      MYSQL_DATABASE: basedb
 volumes:
   data_db:
-    name: base_db
+    name: basedb
     external: true
