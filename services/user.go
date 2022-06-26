@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/base64"
 	"encoding/binary"
+	"log"
 	_ "log"
 
 	"github.com/macduyhai/BaseBE/daos"
@@ -16,6 +17,8 @@ import (
 type UserService interface {
 	Login(request dtos.LoginRequest) (*dtos.LoginResponse, error)
 	Create(user models.Staff) (*models.Staff, error)
+	Edit(user models.Staff, token string) (*models.Staff, error)
+	Delete(user models.Staff, token string) error
 }
 type userServiceImpl struct {
 	config  *config.Config
@@ -61,3 +64,23 @@ func (service *userServiceImpl) Create(user models.Staff) (*models.Staff, error)
 	return service.userDao.Create(user)
 
 }
+func (service *userServiceImpl) Edit(user models.Staff, token string) (*models.Staff, error) {
+	id, err := service.DecodeToken(token)
+	if err != nil {
+		log.Println("Decode token edit error:" + err.Error())
+		return nil, err
+	}
+	return service.userDao.Edit(user, id)
+}
+func (service *userServiceImpl) Delete(user models.Staff, token string) error {
+	id, err := service.DecodeToken(token)
+	if err != nil {
+		log.Println("Decode token edit error:" + err.Error())
+		return err
+	}
+	return service.userDao.Delete(user, id)
+}
+
+// func (service *userServiceImpl) FindMyID(id int64) *models.Staff {
+// 	return service.userDao.FindMyID(id)
+// }

@@ -1,5 +1,9 @@
 package dtos
 
+import (
+	"github.com/macduyhai/BaseBE/models"
+)
+
 type Response struct {
 	Data interface{} `json:"data"`
 	Meta struct {
@@ -22,10 +26,16 @@ type AddRequest struct {
 }
 
 type DeleteRequest struct {
+	Username string `json:"username"`
+	Token    string `json:"token"`
 }
-type DeleteResponse struct {
-}
+
 type EditRequest struct {
+	Username string `json:"username"`
+	Fullname string `json:"fullname"`
+	Salary   int64  `json:"salary"`
+	Token    string `json:"token"`
 }
 type EditResponse struct {
+	user models.Staff
 }

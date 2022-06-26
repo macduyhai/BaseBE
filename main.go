@@ -30,6 +30,7 @@ func main() {
 			log.Println("Close DB error")
 		}
 	}()
+
 	// Init router request
 	router := rounters.NewRounter(conf, db)
 	app, err := router.InitGin()

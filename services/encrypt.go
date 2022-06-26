@@ -17,6 +17,7 @@ import (
 
 type EncryptService interface {
 	CheckKey(id int64, username string) error
+	DecodeToken(token_str string) (int64, error)
 	Base64Enc(b1 []byte) string
 	Base64Dec(s1 string) ([]byte, error)
 	RsaDecrypt(ciphertext []byte, key []byte) ([]byte, error)
@@ -58,6 +59,23 @@ func (service *ecryptServiceImpl) CheckKey(id int64, token_str string) error {
 		//log.Println("Key is Valid")
 		return nil
 	}
+}
+func (service *userServiceImpl) DecodeToken(token_str string) (int64, error) {
+	tokenDe, err := Base64Dec(token_str)
+	if err != nil {
+		log.Println(err)
+		err = errors.New("Key invalid")
+		return 0, err
+
+	}
+	tokenID, err := RsaDecrypt(tokenDe, []byte(service.config.PrivateKey))
+	if err != nil {
+		log.Println(err)
+		err = errors.New("Key invalid")
+		return 0, err
+	}
+	return int64(binary.LittleEndian.Uint64(tokenID)), nil
+
 }
 func Base64Enc(b1 []byte) string {
 	s1 := base64.StdEncoding.EncodeToString(b1)

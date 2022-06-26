@@ -25,7 +25,7 @@ func (ctl *Controller) Login(context *gin.Context) {
 	var request dtos.LoginRequest
 	err := context.ShouldBindJSON(&request)
 	if err != nil {
-		log.Println("Decode json request error: " + err.Error())
+		log.Println("Decode json login request error: " + err.Error())
 		utilitys.ResponseError400(context, "Login error")
 		return
 	}
@@ -44,7 +44,7 @@ func (ctl *Controller) Create(context *gin.Context) {
 
 	err := context.ShouldBindJSON(&request)
 	if err != nil {
-		log.Println("Decode json request error: " + err.Error())
+		log.Println("Decode json create request error: " + err.Error())
 		utilitys.ResponseError400(context, err.Error())
 		return
 	}
@@ -63,6 +63,54 @@ func (ctl *Controller) Create(context *gin.Context) {
 	} else {
 		utilitys.ResponseSuccess200(context, user, "Create success")
 	}
+}
+
+func (ctl *Controller) Edit(context *gin.Context) {
+	var request dtos.EditRequest
+	err := context.ShouldBindJSON(&request)
+	if err != nil {
+		log.Println("Decode json edit request error: " + err.Error())
+		utilitys.ResponseError400(context, "Edit error")
+		return
+	}
+	timeNow := utilitys.TimeIn("Asia/Ho_Chi_Minh")
+	staff := models.Staff{
+		Username:   request.Username,
+		Fullname:   request.Fullname,
+		Salary:     request.Salary,
+		UpdateTime: &timeNow,
+	}
+	user, err := ctl.userService.Edit(staff, request.Token)
+	if err != nil {
+		utilitys.ResponseError400(context, err.Error())
+		return
+	} else {
+		utilitys.ResponseSuccess200(context, user, "Edit success")
+	}
+
+}
+func (ctl *Controller) Delete(context *gin.Context) {
+	var request dtos.DeleteRequest
+	err := context.ShouldBindJSON(&request)
+	if err != nil {
+		log.Println("Decode json edit request error: " + err.Error())
+		utilitys.ResponseError400(context, "Edit error")
+		return
+	}
+	timeNow := utilitys.TimeIn("Asia/Ho_Chi_Minh")
+	staff := models.Staff{
+		Username:   request.Username,
+		UpdateTime: &timeNow,
+	}
+	err = ctl.userService.Delete(staff, request.Token)
+	if err != nil {
+		log.Println("Delete user error:" + err.Error())
+		utilitys.ResponseError400(context, err.Error())
+		return
+	} else {
+		utilitys.ResponseSuccess200(context, "", "Delete success")
+	}
+
 }
 
 func (ctl *Controller) Ping(context *gin.Context) {

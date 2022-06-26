@@ -35,6 +35,8 @@ func (router *Rounter) InitGin() (*gin.Engine, error) {
 		user := engine.Group("/api/v1/user")
 		user.Use(userAuthenMiddleWare.Check)
 		user.POST("/add", controller.Create)
+		user.PUT("/edit", controller.Edit)
+		user.DELETE("/delete", controller.Delete)
 	}
 
 	return engine, nil

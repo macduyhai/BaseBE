@@ -1,6 +1,7 @@
 package daos
 
 import (
+	"errors"
 	_ "log"
 
 	"github.com/macduyhai/BaseBE/models"
@@ -11,6 +12,8 @@ import (
 type UserDao interface {
 	Login(username, pass string) (*models.Staff, error)
 	Create(user models.Staff) (*models.Staff, error)
+	Edit(user models.Staff, id int64) (*models.Staff, error)
+	Delete(user models.Staff, id int64) error
 }
 
 type userDaoImpl struct {
@@ -36,4 +39,41 @@ func (dao *userDaoImpl) Create(user models.Staff) (*models.Staff, error) {
 
 	}
 	return &user, nil
+}
+func (dao *userDaoImpl) Edit(edituser models.Staff, id int64) (*models.Staff, error) {
+	var user models.Staff
+
+	if err := dao.db.Where("ID=?", id).Find(&user).Error; err != nil {
+		return nil, err
+	}
+	if user.Username != edituser.Username {
+		err := errors.New("Username do not match")
+		return nil, err
+	}
+
+	if edituser.Fullname != "" {
+		user.Fullname = edituser.Fullname
+	}
+	user.Salary = edituser.Salary
+	user.UpdateTime = edituser.UpdateTime
+
+	if err := dao.db.Save(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+func (dao *userDaoImpl) Delete(userdel models.Staff, id int64) error {
+	var user models.Staff
+
+	if err := dao.db.Where("ID=?", id).Find(&user).Error; err != nil {
+		return err
+	}
+	if user.Username != userdel.Username {
+		err := errors.New("Username do not match")
+		return err
+	}
+	if err := dao.db.Delete(&user).Error; err != nil {
+		return err
+	}
+	return nil
 }
