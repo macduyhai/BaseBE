@@ -37,5 +37,5 @@ type EditRequest struct {
 	Token    string `json:"token"`
 }
 type EditResponse struct {
-	user models.Staff
+	user models.User
 }

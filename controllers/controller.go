@@ -49,14 +49,15 @@ func (ctl *Controller) Create(context *gin.Context) {
 		return
 	}
 	timeNow := utilitys.TimeIn("Asia/Ho_Chi_Minh")
-	staff := models.Staff{
-		Username:   request.Username,
-		Password:   request.Password,
-		Fullname:   request.Fullname,
-		Salary:     request.Salary,
+	us := models.User{
+		Username: request.Username,
+		Password: request.Password,
+		Fullname: request.Fullname,
+		Salary:   request.Salary,
+
 		CreateTime: &timeNow,
 	}
-	user, err := ctl.userService.Create(staff)
+	user, err := ctl.userService.Create(us)
 	if err != nil {
 		log.Println("Create user error:" + err.Error())
 		utilitys.ResponseError400(context, err.Error())
@@ -74,13 +75,13 @@ func (ctl *Controller) Edit(context *gin.Context) {
 		return
 	}
 	timeNow := utilitys.TimeIn("Asia/Ho_Chi_Minh")
-	staff := models.Staff{
+	us := models.User{
 		Username:   request.Username,
 		Fullname:   request.Fullname,
 		Salary:     request.Salary,
 		UpdateTime: &timeNow,
 	}
-	user, err := ctl.userService.Edit(staff, request.Token)
+	user, err := ctl.userService.Edit(us, request.Token)
 	if err != nil {
 		utilitys.ResponseError400(context, err.Error())
 		return
@@ -98,11 +99,11 @@ func (ctl *Controller) Delete(context *gin.Context) {
 		return
 	}
 	timeNow := utilitys.TimeIn("Asia/Ho_Chi_Minh")
-	staff := models.Staff{
+	us := models.User{
 		Username:   request.Username,
 		UpdateTime: &timeNow,
 	}
-	err = ctl.userService.Delete(staff, request.Token)
+	err = ctl.userService.Delete(us, request.Token)
 	if err != nil {
 		log.Println("Delete user error:" + err.Error())
 		utilitys.ResponseError400(context, err.Error())

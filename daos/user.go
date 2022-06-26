@@ -10,10 +10,10 @@ import (
 )
 
 type UserDao interface {
-	Login(username, pass string) (*models.Staff, error)
-	Create(user models.Staff) (*models.Staff, error)
-	Edit(user models.Staff, id int64) (*models.Staff, error)
-	Delete(user models.Staff, id int64) error
+	Login(username, pass string) (*models.User, error)
+	Create(user models.User) (*models.User, error)
+	Edit(user models.User, id int64) (*models.User, error)
+	Delete(user models.User, id int64) error
 }
 
 type userDaoImpl struct {
@@ -24,15 +24,15 @@ func NewUserDao(db *gorm.DB) UserDao {
 	return &userDaoImpl{db: db}
 }
 
-func (dao *userDaoImpl) Login(username, pass string) (*models.Staff, error) {
-	var user models.Staff
+func (dao *userDaoImpl) Login(username, pass string) (*models.User, error) {
+	var user models.User
 	if err := dao.db.Where("username = ? AND password = ?", username, pass).Find(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
 
 }
-func (dao *userDaoImpl) Create(user models.Staff) (*models.Staff, error) {
+func (dao *userDaoImpl) Create(user models.User) (*models.User, error) {
 
 	if err := dao.db.Create(&user).Error; err != nil {
 		return nil, err
@@ -40,8 +40,8 @@ func (dao *userDaoImpl) Create(user models.Staff) (*models.Staff, error) {
 	}
 	return &user, nil
 }
-func (dao *userDaoImpl) Edit(edituser models.Staff, id int64) (*models.Staff, error) {
-	var user models.Staff
+func (dao *userDaoImpl) Edit(edituser models.User, id int64) (*models.User, error) {
+	var user models.User
 
 	if err := dao.db.Where("ID=?", id).Find(&user).Error; err != nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (dao *userDaoImpl) Edit(edituser models.Staff, id int64) (*models.Staff, er
 	}
 	return &user, nil
 }
-func (dao *userDaoImpl) Delete(userdel models.Staff, id int64) error {
-	var user models.Staff
+func (dao *userDaoImpl) Delete(userdel models.User, id int64) error {
+	var user models.User
 
 	if err := dao.db.Where("ID=?", id).Find(&user).Error; err != nil {
 		return err
