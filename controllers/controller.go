@@ -50,11 +50,11 @@ func (ctl *Controller) Create(context *gin.Context) {
 	}
 	timeNow := utilitys.TimeIn("Asia/Ho_Chi_Minh")
 	us := models.User{
-		Username: request.Username,
-		Password: request.Password,
-		Fullname: request.Fullname,
-		Salary:   request.Salary,
-
+		Username:   request.Username,
+		Password:   request.Password,
+		Fullname:   request.Fullname,
+		Salary:     request.Salary,
+		Active:     1,
 		CreateTime: &timeNow,
 	}
 	user, err := ctl.userService.Create(us)

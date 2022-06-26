@@ -139,6 +139,54 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "baseapi-v1",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"simon1\",\r\n    \"token\":\"eQAuHn2aShy/SSDHulzjxgXxcKbKJVf9hDF8YhDFmDvooWy4HiWFf7C8FTwQ/W74y5lq6PcuJ9b202R4YNFwKED9B8cGGmpvTxnrQJQFNzXZxr1LnCVmoUdqQWTe+t5jIlcEyer/sC+FHG2FvIWgZ/wh3pXxIU/fDnzJZqTnc9M=\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "192.168.0.157:9090/api/v1/user/delete",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"157"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"delete"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

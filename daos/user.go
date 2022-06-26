@@ -29,6 +29,10 @@ func (dao *userDaoImpl) Login(username, pass string) (*models.User, error) {
 	if err := dao.db.Where("username = ? AND password = ?", username, pass).Find(&user).Error; err != nil {
 		return nil, err
 	}
+	if user.Active == 0 {
+		err := errors.New("Inactive account")
+		return nil, err
+	}
 	return &user, nil
 
 }
