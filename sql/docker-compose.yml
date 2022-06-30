@@ -6,10 +6,15 @@ services:
     container_name: basedb
     ports: 
      - 3307:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+     - ./init.sql:/data/application/init.sql
+     - data_db:/var/lib/mysql
     environment:
       MYSQL_PASSWORD: 123
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_DATABASE: basedb
+      TZ: Asia/Ho_Chi_Minh
 volumes:
   data_db:
     name: basedb

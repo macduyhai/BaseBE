@@ -1,5 +1,7 @@
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (  
+USE basedb;
+-- DROP TABLE IF EXISTS `users`;
+-- CREATE TABLE `users` (  
+CREATE TABLE IF NOT EXISTS `users` ( 
     `id` int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
     `username` varchar(255) UNIQUE,
     `password` varchar(255)  NOT NULL,
